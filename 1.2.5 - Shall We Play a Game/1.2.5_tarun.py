@@ -51,7 +51,28 @@ def clear_table():
     screen.update()
 
 def play_round(): 
-    
+    global chips
+    clear_table()
+    draw.penup()
+    draw.goto(-200, 100)
+    draw.color("gold")
+    draw.write(f"Chips: {chips}", align="center", font=("Arial", 18, "bold"))
+    screen.update()
+
+    bet_str = screen.textinput("Place your bet", f"You have {chips} chips.\nEnter bet amount:")
+    if bet_str is None:
+        return False
+    try:
+        bet = int(bet_str)
+    except:
+        return True
+    if bet <= 0 or bet > chips:
+        return True
+
+    choice = screen.textinput("Bet on", "Type 'player' or 'banker':")
+    if choice is None or choice.lower() not in ["player", "banker"]:
+        return True
+    choice = choice.lower()
     
     
 def draw_numbers():
