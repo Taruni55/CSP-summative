@@ -74,16 +74,17 @@ def play_round():
         return True
     choice = choice.lower()
     
-    
-def draw_numbers():
-    card_1 = rand.choice(number_values)
-    card_2 = rand.choice(number_values)
-    card_3 = rand.choice(number_values)
-    card_4 = rand.choice(number_values)
-    card_5 = rand.choice(number_values)
-    card_6 = rand.choice(number_values)
+    player_cards = [rand.choice(number_values), rand.choice(number_values)]
+    banker_cards = [rand.choice(number_values), rand.choice(number_values)]
 
-    
+    player_total = baccarat_value(player_cards)
+    banker_total = baccarat_value(banker_cards)
+
+    x_start = -150
+    for i, c in enumerate(player_cards):
+        draw_card(x_start + i*70, 50, c, "Player")
+    for i, c in enumerate(banker_cards):
+        draw_card(x_start + i*70, -100, c, "Banker")
 
 #loop for main game
 
