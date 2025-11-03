@@ -27,7 +27,7 @@ def draw_card(x, y, value, label):
     draw.pendown()
     draw.color("white")
     draw.begin_fill()
-    for _ in range(2):
+    for i in range(2):
         draw.forward(60)
         draw.right(90)
         draw.forward(90)
@@ -42,6 +42,18 @@ def draw_card(x, y, value, label):
     screen.update()
     time.sleep(1) 
     
+def clear_table():
+    draw.clear()
+    draw.penup()
+    draw.goto(-200, 150)
+    draw.color("white")
+    draw.write("Baccarat Table", align="center", font=("Arial", 28, "bold"))
+    screen.update()
+
+def play_round(): 
+    
+    
+    
 def draw_numbers():
     card_1 = rand.choice(number_values)
     card_2 = rand.choice(number_values)
@@ -51,7 +63,7 @@ def draw_numbers():
     card_6 = rand.choice(number_values)
 
     
-draw_numbers()
+
 #loop for main game
 
 #bet size
