@@ -13,7 +13,7 @@ draw.hideturtle()
 draw.speed(0)
 draw.pensize(3) 
 
-number_values = [0,1,2,3,4,5,6,7,8,9]
+number_values = [0,0,0,0,1,2,3,4,5,6,7,8,9]
 chips = 5000
 wins = 0
 losses = 0 
@@ -132,7 +132,5 @@ draw.write(f"Game Over!\nFinal Chips: {chips}", align="center", font=("Arial", 2
 keep_playing = True
 while keep_playing and chips > 0:
     keep_playing = play_round()
-
-
 
 screen.mainloop()
