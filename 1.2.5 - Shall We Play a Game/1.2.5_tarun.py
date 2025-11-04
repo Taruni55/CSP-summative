@@ -58,7 +58,7 @@ def play_round():
     draw.color("gold")
     draw.write(f"Chips: {chips}", align="center", font=("Arial", 18, "bold"))
     screen.update()
-
+#bet size
     bet_str = screen.textinput("Place your bet", f"You have {chips} chips.\nEnter bet amount:")
     if bet_str is None:
         return False
@@ -68,7 +68,7 @@ def play_round():
         return True
     if bet <= 0 or bet > chips:
         return True
-
+#choose player or banker
     choice = screen.textinput("Bet on", "Type 'player' or 'banker':")
     if choice is None or choice.lower() not in ["player", "banker"]:
         return True
@@ -79,13 +79,13 @@ def play_round():
 
     player_total = baccarat_value(player_cards)
     banker_total = baccarat_value(banker_cards)
-
+#deal cards
     x_start = -150
     for i, c in enumerate(player_cards):
         draw_card(x_start + i*70, 50, c, "Player")
     for i, c in enumerate(banker_cards):
         draw_card(x_start + i*70, -100, c, "Banker")
-
+#check if eligible to draw 3rd card
     if player_total <= 5:
         player_cards.append(rand.choice(number_values))
         player_total = baccarat_value(player_cards)
@@ -95,7 +95,7 @@ def play_round():
         banker_cards.append(rand.choice(number_values))
         banker_total = baccarat_value(banker_cards)
         draw_card(x_start + 2*70, -100, banker_cards[-1], "Banker")
-
+#check winner
     if player_total > banker_total:
         winner = "player"
     elif banker_total > player_total:
@@ -122,21 +122,17 @@ def play_round():
     screen.textinput("Continue?", "Press OK to play next round, or Cancel to quit.")
     return chips > 0
 
-#loop for main game
-
-#bet size
-
-#choose player or banker
-
-
-#deal cards
-
-#check if eligible to draw 3rd card
-
-#check winner
-
-
 #end game when out of chips
+draw.clear()
+draw.goto(0, 0)
+draw.color("white")
+draw.write(f"Game Over!\nFinal Chips: {chips}", align="center", font=("Arial", 26, "bold"))
 
-wn=trtl.Screen()
-wn.mainloop()
+#loop for main game
+keep_playing = True
+while keep_playing and chips > 0:
+    keep_playing = play_round()
+
+
+
+screen.mainloop()
