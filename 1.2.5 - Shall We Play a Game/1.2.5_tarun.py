@@ -86,6 +86,42 @@ def play_round():
     for i, c in enumerate(banker_cards):
         draw_card(x_start + i*70, -100, c, "Banker")
 
+    if player_total <= 5:
+        player_cards.append(rand.choice(number_values))
+        player_total = baccarat_value(player_cards)
+        draw_card(x_start + 2*70, 50, player_cards[-1], "Player")
+
+    if banker_total <= 5:
+        banker_cards.append(rand.choice(number_values))
+        banker_total = baccarat_value(banker_cards)
+        draw_card(x_start + 2*70, -100, banker_cards[-1], "Banker")
+
+    if player_total > banker_total:
+        winner = "player"
+    elif banker_total > player_total:
+        winner = "banker"
+    else:
+        winner = "tie"
+        
+    draw.goto(-200, -200)
+    if winner == choice:
+        chips += bet
+        draw.color("lightgreen")
+        draw.write(f"You win! {winner.title()} wins.", align="center", font=("Arial", 18, "bold"))
+    elif winner == "tie":
+        draw.color("yellow")
+        draw.write("It's a tie! Bet returned.", align="center", font=("Arial", 18, "bold"))
+    else:
+        chips -= bet
+        draw.color("red")
+        draw.write(f"You lose! {winner.title()} wins.", align="center", font=("Arial", 18, "bold"))
+
+    screen.update()
+    time.sleep(2) 
+
+    screen.textinput("Continue?", "Press OK to play next round, or Cancel to quit.")
+    return chips > 0
+
 #loop for main game
 
 #bet size
