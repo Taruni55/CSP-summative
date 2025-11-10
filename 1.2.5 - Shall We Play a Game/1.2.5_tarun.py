@@ -122,15 +122,17 @@ def play_round():
     screen.textinput("Continue?", "Press OK to play next round, or Cancel to quit.")
     return chips > 0
 
-#end game when out of chips
-draw.clear()
-draw.goto(0, 0)
-draw.color("white")
-draw.write(f"Game Over!\nFinal Chips: {chips}", align="center", font=("Arial", 26, "bold"))
 
 #loop for main game
 keep_playing = True
 while keep_playing and chips > 0:
     keep_playing = play_round()
+    
+
+#end game when out of chips
+draw.clear()
+draw.goto(0, 0)
+draw.color("white")
+draw.write(f"Game Over!\nFinal Chips: {chips}", align="center", font=("Arial", 26, "bold"))
 
 screen.mainloop()
