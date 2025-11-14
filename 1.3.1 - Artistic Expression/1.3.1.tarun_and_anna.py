@@ -1,7 +1,6 @@
 import turtle as trtl
-import math
-import time
 import random as rand
+from functools import partial
 
 #turtle set ups
 screen = trtl.Screen()
@@ -13,13 +12,9 @@ start = trtl.Turtle(shape="turtle")
 start.hideturtle()
 flower.hideturtle()
 screen.addshape("petal", ((0, 0), (20, 60), (40, 80), (60, 60), (80, 0), (60, -60), (40, -80), (20, -60)))
-p = trtl.Turtle()
-p.shape("petal")
-p.color("black", "white")
-p.penup()
 
 #game functions
-def generate_question():
+def generate_question(turtle_name, x, y):
     operators = ["+", "-", "*", "/"]
     op = rand.choice(operators)
     a, b = rand.randint(1, 10), rand.randint(1, 10) 
@@ -35,13 +30,13 @@ def generate_question():
             if abs(float(answer) - correct_answer) < 0.01:
                 global player_color
                 player_color = screen.textinput("Correct!", "Nice job! What color would you like")
-                
                 try:
-                    p.fillcolor(player_color)
+                    turtle_name.fillcolor(player_color)
                     return
                 except trtl.TurtleGraphicsError:
-                    p.fillcolor("orange") 
+                    turtle_name.fillcolor("orange") 
                     print("error")
+                break
                 return True
             else:
                 question = f"Try again! What is {a} {op} {b}?"
@@ -91,26 +86,37 @@ def draw_flower():
     center.end_fill()
     
     colors = ["pink", "green", "orange", "red", "purple", "blue"]
-
-    def make_petal(i):
-        p.setheading(i * 60)
-        p.forward(80)
-        def fill_petal(x, y):
-            if generate_question(): 
-                p.fillcolor(player_color)
-                p.stamp()
-            
-        p.onclick(fill_petal)
     
-    for i in range(6):
-        make_petal(i)
+    def make_petal():
+        index = 0
+        for i in range(6):
+            p = ("p"+str(index))
+            print(p)
+            p = trtl.Turtle()
+            print(p)
+            p.shape("petal")
+            p.color("black", "white")
+            p.penup()
+            p.setheading(i * 60)
+            p.forward(80)
+            p.onclick(partial(fill_petal, p))
+            index += 1
+        
+    make_petal()
 
+def fill_petal(turtle_name, x, y):
+    print(turtle_name)
+    if generate_question(turtle_name, x, y): 
+        turtle_name.fillcolor(player_color)
+        turtle_name.stamp()
 #click envelope to open letter
 envelope_image = "1.3.1 - Artistic Expression/envelope.gif"
 screen.addshape(envelope_image)
 envelope = trtl.Turtle(shape=envelope_image)
 envelope.onclick(envelope_clicked)
 start.onclick(start_clicked)
+
+
 
 #generate math questions when clicked
 
