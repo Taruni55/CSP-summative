@@ -3,6 +3,7 @@ import random as rand
 from functools import partial
 
 #turtle set ups
+filled_petals = 0
 screen = trtl.Screen()
 flower = trtl.Turtle()
 flower.speed(0)
@@ -14,7 +15,11 @@ flower.hideturtle()
 screen.addshape("petal", ((0, 0), (20, 60), (40, 80), (60, 60), (80, 0), (60, -60), (40, -80), (20, -60)))
 
 #game functions
+#generate math questions when clicked
 def generate_question(turtle_name, x, y):
+    global filled_petals
+    filled_petals += 1
+    print(filled_petals)
     operators = ["+", "-", "*", "/"]
     op = rand.choice(operators)
     a, b = rand.randint(1, 10), rand.randint(1, 10) 
@@ -29,13 +34,13 @@ def generate_question(turtle_name, x, y):
         try:
             if abs(float(answer) - correct_answer) < 0.01:
                 global player_color
+                #choose fill color when correct
                 player_color = screen.textinput("Correct!", "Nice job! What color would you like")
                 try:
                     turtle_name.fillcolor(player_color)
                     return
                 except trtl.TurtleGraphicsError:
                     turtle_name.fillcolor("orange") 
-                    print("error")
                 break
                 return True
             else:
@@ -101,14 +106,22 @@ def draw_flower():
             p.forward(80)
             p.onclick(partial(fill_petal, p))
             index += 1
-        
     make_petal()
-
+    
 def fill_petal(turtle_name, x, y):
     print(turtle_name)
     if generate_question(turtle_name, x, y): 
         turtle_name.fillcolor(player_color)
         turtle_name.stamp()
+    #when done, just display image at end
+    if filled_petals >= 6:
+        trtl.clear()
+        trtl.speed(0)
+        trtl.penup()
+        trtl.goto(0,200)
+        trtl.pendown()
+        trtl.write("Great job! You finished the flower!", align="center", font=("Arial", 30, "bold"))
+
 #click envelope to open letter
 envelope_image = "1.3.1 - Artistic Expression/envelope.gif"
 screen.addshape(envelope_image)
@@ -116,13 +129,4 @@ envelope = trtl.Turtle(shape=envelope_image)
 envelope.onclick(envelope_clicked)
 start.onclick(start_clicked)
 
-
-
-#generate math questions when clicked
-
-#choose fill color when correct
-
-#when done, just display image at end
-
-#maybe add option to play again
 screen.mainloop()
